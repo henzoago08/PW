@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Callbacks</h1>  
+    <p>são funções que são passadas como argumentos (parametro) para outras funções</p>
+    <h2>para que serve?</h2>
+    <ul>
+        <li>
+            Permitem a execução de codigo após a conclusão de operações assincronas.
+        </li>
+        <li>
+            assincronas: Solicitar algo e esperar ele responder
+        </li>
+        <li>
+            Facilita a manipulção de resultados 
+         </li>
+    </ul>
+    <div id="res"></div>
+    <script>
+        //fuction nome_funcao(parametro_da_funcao)
+        //Cria um funcao que recebe um parametro (esse parametro é outro funcao)
+        function fetchData(callback){
+            //cria um objeto
+            const objeto = {id: 1, nome: "Henzo"}
+            //setTimeout para similar uma requisiçao assoncroma
+            setTimeout(() => {
+                //chama a funcao passada pelo parametro
+                callback(objeto)
+            }, 1000);//chama a funcao depois de 1s
+        }
+        fetchData((obj) => {
+            //Exibe os dados recebidos pela funcao callback
+            console.log(`Dados recebidos: ${obj}`);
+        });//funcao
+        //================================================
+        function exibir(texto){
+            document.getElementById('res').innerHTML = `${texto}`;
+        }
+        exibir('Olá callback!!!!!!!!!!!!')
+        function calcular(n1, n2, callback){
+            let soma = n1 + n2;
+            callback(`${n1} + ${n2} = ${soma} `);
+        }
+        calcular(5, 5, exibir)
+        //=====================================================
+        //remover numeros negativos
+        let numeros = [5, -6, -7, 6, 10, 1, -9, -4]
+        function remover(numeros, callback) {
+            const filtrados = [];
+            for(const x of numeros){
+                if(callback(x)) {
+                    filtrados.push(x);
+                }
+            }
+            return filtrados;
+        }
+        const positivos = remover(numeros, (y) =>{
+            return y > 0;
+        });
+        exibir(positivos.join(" | "));
+    </script> 
+</body>
+</html>
